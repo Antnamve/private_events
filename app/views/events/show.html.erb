@@ -1,0 +1,77 @@
+<div class="max-w-3xl mx-auto px-4 my-16">
+  <div class="pb-6 border-b">
+    <nav aria-label="breadcrumb" class="my-6 font-medium flex text-slate-500 dark:text-slate-200 text-sm">
+      <ol class="flex flex-wrap items-center space-x-3">
+        <li>
+          <%= link_to "Events", events_path, class: "hover:underline hover:text-slate-600 dark:hover:text-slate-400" %>
+        </li>
+        <li class="flex space-x-3">
+          <div class="flex items-center">
+            <span class="text-slate-300 dark:text-slate-500">/</span>
+          </div>
+          <span class="text-indigo-600 dark:text-indigo-500" aria-current="page">
+            #<%= @event.id %>
+          </span>
+        </li>
+      </ol>
+    </nav>
+    <div class="flex items-center justify-between">
+      <h1 class="text-4xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight flex-1">event #<%= @event.id %></h1>
+      <%= link_to "Edit", edit_event_path(@event), class: "btn btn-light" %>
+    </div>
+  </div>
+  <%= render @event %>
+
+  <% @users.each do |user| %>
+
+  <% if user.attended_event_ids.include? @event.id %>
+    <h1>Email: <%= user.email %></h1>
+  <% end %>
+
+  <div class="rounded-lg shadow-lg shadow-slate-300/70 bg-white p-6 dark:bg-slate-800 dark:shadow-slate-900/50">
+    <div class="-mx-6 border-b border-slate-200 dark:border-slate-700 px-6 pb-4 mb-4 flex items-center justify-between flex-wrap">
+      <h1 class="sm:text-2xl text-xl">Posts</h1>
+      <a class="btn btn-primary" href="#">New post</a>
+    </div>
+    <div class="rounded-lg shadow-lg shadow-slate-300/70 bg-white py-4 px-6 flex flex-wrap items-center w-auto dark:bg-slate-800 dark:shadow-slate-900/50 dark:text-white">
+    <%# image_tag "#", class: "object-cover w-16 h-16 rounded-full flex-shrink-0" %>
+    <div class="pl-3 flex-1 flex flex-col items-start space-y-px text-slate-700">
+      <p class="font-bold dark:text-white">John Doe <%= user.id %> <%= user.attended_event_ids %></p>
+      <p class="text-sm dark:text-slate-300">Software Architect at <%= link_to "Amazon", "https://amazon.com", target: :_blank, class: "btn-link" %></a></p>
+    </div>
+    <div 
+      class="grid gap-3 grid-cols-2 lg:pt-0 pt-3 w-full lg:w-auto"
+      data-controller="invitations"
+      data-event-id="<%= @event.id %>"
+      data-user-id="<%= user.id %>"
+    >
+      <% if user.attended_events.include? @event %>
+        <%# link_to "#", 
+          class: "btn btn-white dark:bg-transparent dark:border-slate-400 dark:text-slate-100 dark:hover:shadow-slate-900/50 dark:hover:border-slate-100 space-x-2 group",
+          data: { action: 'click->invitations#open' } do %>
+          <%# icon "phone", classes: "w-5 h-5 text-slate-500 dark:text-slate-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400" %>
+          <%# <span>Pending</span> %>
+        <%# end %>
+        <%= link_to(
+          "#", 
+          class: "btn btn-white dark:bg-transparent dark:border-slate-400 dark:text-slate-100 dark:hover:shadow-slate-900/50 dark:hover:border-slate-100 space-x-2 group",
+          data: { action: 'click->invitations#rescindInvitation' }) do %>
+          <%= icon "x-mark", classes: "w-5 h-5 text-slate-500 dark:text-slate-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400" %>
+          <span>Rescind</span>
+        <% end %>
+      <% else %>
+          <%= link_to(
+            "", 
+            class: "btn btn-white dark:bg-transparent dark:border-slate-400 dark:text-slate-100 dark:hover:shadow-slate-900/50 dark:hover:border-slate-100 space-x-2 group" ,
+            data: { action: 'click->invitations#sendInvitation' }
+          ) do %>
+            <%= icon "users", classes: "w-5 h-5 text-slate-500 dark:text-slate-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400" %>
+            <span>Invite</span>
+          <% end %>
+        <% end %>
+    </div>
+  </div>
+    <!-- content -->
+  </div>
+  <% end %>
+</div>

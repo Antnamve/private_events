@@ -1,0 +1,43 @@
+<article id="<%= dom_id event %>" class="py-6 prose dark:prose-invert">
+    <h2><%= event.name %></h2>
+    <p>
+      Creator: <%= event.creator.email %>
+    </p>
+    <p class="mb-0 font-semibold">
+      Host: <%= event.host %>
+    </p>
+    <p class="mb-0 font-semibold">
+      Location: <%= event.location %>
+    </p>
+    <p class="mb-0 font-semibold">
+      Date: <%= event.date %>
+    </p>
+    <p class="mb-0 font-semibold">
+      Details: <%= event.details %>
+    </p>
+    <p class="mb-0 font-semibold">
+      Attendance: <%= event.private %>
+    <p class="my-0">
+
+    <p>
+      <%= User.where.not(id: current_user.id).all.each do |user| %>
+        <%= user.id %>
+      <% end %>
+
+    <p>
+      Invite
+    </p>
+    <p>
+      Rescind
+    </p>
+    <p>
+      Status: User attending
+    </p>
+    </p>
+
+  <p>
+    <%= link_to "View Event", event, class: "underline" %>
+  </p>
+
+  <time class="text-slate-600 dark:text-slate-400 text-xs mt-2" datetime="<%= event.created_at.to_formatted_s(:long) %>">Created <%= time_ago_in_words(event.created_at) + " ago" %></time>
+</article>

@@ -13,6 +13,9 @@ application.register("dropdown", DropdownController)
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 
+import InvitationsController from "./invitations_controller"
+application.register("invitations", InvitationsController)
+
 import ModalController from "./modal_controller"
 application.register("modal", ModalController)
 
